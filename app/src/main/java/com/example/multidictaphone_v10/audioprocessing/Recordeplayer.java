@@ -3,18 +3,28 @@ package com.example.multidictaphone_v10.audioprocessing;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Build;
+import android.os.Environment;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class Recordeplayer {
-    private List<Object> tracks;
+public class Recordeplayer { //на кожен трек свій рекордеплеєр
+    //private List<Object> tracks;
     protected MediaPlayer player;
     public MediaRecorder recorder;
     public String state;
+    private String name;
+
+
+    public String getName() {
+        return name;
+    }
 
     public void StartPlayer(String filePath)
     {
@@ -86,14 +96,25 @@ public class Recordeplayer {
             recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
             //if (File.Exists(filePath)) File.Delete(filePath);
-            Files.deleteIfExists(Paths.get(filePath));
 
-            recorder.setOutputFile(filePath);
+            //Files.deleteIfExists(Paths.get(filePath)); this was commented
+            File dir = Environment.getExternalStorageDirectory();
+            File audiofile = null;
+
+            try {
+                audiofile = File.createTempFile(filePath, ".3gp", dir);
+            } catch (IOException e) {
+                Log.e("TAG", "external storage access error");
+                return;
+            }
+
+            recorder.setOutputFile(audiofile.getAbsolutePath()); // this was modified 20/05
             System.out.println("saving in " + filePath);
 
             recorder.prepare();
             recorder.start();
             state = "is recording";
+            name = filePath;
         }
         catch (Exception ex)
         {

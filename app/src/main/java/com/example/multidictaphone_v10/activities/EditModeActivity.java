@@ -11,6 +11,7 @@ import android.view.View;
 import com.example.multidictaphone_v10.R;
 import com.example.multidictaphone_v10.adapter.ClickListenerTrack;
 import com.example.multidictaphone_v10.adapter.TrackAdapter;
+import com.example.multidictaphone_v10.audioprocessing.Recordeplayer;
 import com.example.multidictaphone_v10.models.Track;
 
 import java.util.ArrayList;
@@ -45,8 +46,40 @@ public class EditModeActivity extends AppCompatActivity {
             @Override
             public void deleteClicked(int position) {
                Log.d("", "will delete on position "+position);
-               trackList.remove(position);
-               setTrackAdapter(trackList);
+               //trackList.remove(position);
+
+                //setTrackAdapter(trackList);
+                trackAdapter.trackList.remove(position);
+                trackAdapter.recordeplayers.remove(position);
+                trackAdapter.currentTrackPosition = position;
+
+                trackRecycler.setAdapter(trackAdapter);//?
+
+            }
+
+            //TODO
+            @Override
+            public void recordBtnClicked(int position) {
+                trackAdapter.currentTrackPosition = position;
+
+            }
+            //TODO
+            @Override
+            public void stopRecordBtnClicked(int position) {
+                trackAdapter.currentTrackPosition = position;
+
+            }
+            //TODO
+            @Override
+            public void playTrackBtnClicked(int position) {
+                trackAdapter.currentTrackPosition = position;
+
+            }
+            //TODO
+            @Override
+            public void stopPlayingTrackBtnClicked(int position) {
+                trackAdapter.currentTrackPosition = position;
+
             }
         });
 
@@ -63,6 +96,9 @@ public class EditModeActivity extends AppCompatActivity {
     }
     public void deleteTrack(View view){
 
+    }
+    public void playAll(View view){
+        trackAdapter.playAllTracks();
     }
 
 }
