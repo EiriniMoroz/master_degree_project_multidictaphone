@@ -41,6 +41,7 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHol
     private final ClickListenerTrack listener;
     private static List<Integer> imageButtonRecordStopPlayCLICK_COUNTS;
     public static int currentTrackPosition;
+    public String externalCacheDir = "";
 
 
     public TrackAdapter(Context context,List<Track> trackList, ClickListenerTrack listener) {
@@ -49,9 +50,9 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHol
         this.listener = listener;
         imageButtonRecordStopPlayCLICK_COUNTS = new ArrayList<Integer>(Collections.nCopies(trackList.size(), 0));
 
-        recordeplayers.add(new Recordeplayer());
-        recordeplayers.add(new Recordeplayer());
-        recordeplayers.add(new Recordeplayer());
+        recordeplayers.add(new Recordeplayer(externalCacheDir));
+        recordeplayers.add(new Recordeplayer(externalCacheDir));
+        recordeplayers.add(new Recordeplayer(externalCacheDir));
 
     }
 
@@ -78,10 +79,10 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHol
 
     public final class TrackViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private ImageButton imageButtonDeletion;
-        private ImageButton imageButtonRecordStopPlay;
+        private final ImageButton imageButtonDeletion;
+        private final ImageButton imageButtonRecordStopPlay;
 
-        private WeakReference<ClickListenerTrack> listenerRef;
+        private final WeakReference<ClickListenerTrack> listenerRef;
         TextView trackName;
         public TrackViewHolder(@NonNull View itemView, ClickListenerTrack listener) {
             super(itemView);
@@ -89,8 +90,8 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHol
             trackName = itemView.findViewById(R.id.trackName);
             listenerRef = new WeakReference<>(listener);
 
-            imageButtonDeletion = (ImageButton) itemView.findViewById(R.id.deleteTrackBtn);
-            imageButtonRecordStopPlay = (ImageButton) itemView.findViewById(R.id.recordOrStopRecordOrPlayBtn);
+            imageButtonDeletion = itemView.findViewById(R.id.deleteTrackBtn);
+            imageButtonRecordStopPlay = itemView.findViewById(R.id.recordOrStopRecordOrPlayBtn);
             //          ..//..
 
             itemView.setOnClickListener(this);
@@ -116,8 +117,11 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHol
                 switch(imageButtonRecordStopPlayCLICK_COUNTS.get(getAdapterPosition())) {
                     case 1: //start record
                         listenerRef.get().recordBtnClicked(getAdapterPosition());
+                        //Log.d("1","11111");
                         new Thread(new Runnable() {
                             public void run() {
+                                //Log.d("2","2222");
+
                                 imageButtonRecordStopPlay.post(new Runnable() {
                                     public void run() {
                                         imageButtonRecordStopPlay.setImageResource(R.drawable.stoprecordingbutton); //не реагувати на це червоне
@@ -125,6 +129,8 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHol
                                 });
                                 recordeplayers.get(currentTrackPosition).RecordAudio("NewRecord" +
                                         String.valueOf((TrackAdapter.this.trackList.get(currentTrackPosition).getId())));
+                               // Log.d("","state is " + recordeplayers.get(currentTrackPosition).recorder.);
+
                             }
                         }).start();
 
@@ -198,7 +204,7 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHol
     public void addNewTrack(){
 
         trackList.add(new Track(++recordsCount));
-        recordeplayers.add(new Recordeplayer());
+        recordeplayers.add(new Recordeplayer(externalCacheDir));
         imageButtonRecordStopPlayCLICK_COUNTS.add(0);
     }
 
