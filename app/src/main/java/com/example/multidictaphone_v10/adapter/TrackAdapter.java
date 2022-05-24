@@ -28,6 +28,10 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -130,7 +134,7 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHol
                                 recordeplayers.get(currentTrackPosition).RecordAudio("NewRecord" +
                                         String.valueOf((TrackAdapter.this.trackList.get(currentTrackPosition).getId())));
                                // Log.d("","state is " + recordeplayers.get(currentTrackPosition).recorder.);
-
+                                System.out.println("record started");
                             }
                         }).start();
 
@@ -145,6 +149,8 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHol
                                     }
                                 });
                                  recordeplayers.get(currentTrackPosition).StopRecorder();
+                                System.out.println("record finished");
+
                             }
                         }).start();
                         break;
@@ -161,6 +167,8 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHol
                                         });
                                         recordeplayers.get(currentTrackPosition).StartPlayer("NewRecord" +
                                         String.valueOf((TrackAdapter.this.trackList.get(currentTrackPosition).getId())));
+                                        System.out.println("play started");
+
                                     }
                                 }).start();
                                 break;
@@ -174,6 +182,8 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHol
                                             }
                                         });
                                         recordeplayers.get(currentTrackPosition).StopPlayer();
+                                        System.out.println("play stopped");
+
                                     }
                                 }).start();
                                 break;
@@ -189,8 +199,50 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHol
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void playAllTracks() {
+
+        List<Path> pathes = new ArrayList<>();
+        List<byte[]> bytes = new ArrayList<>();
+        File directory = new File(Environment.getExternalStorageDirectory()+File.separator+"records1");
+
+        //28.04
+        //Path path = Paths.get("C:", "temp", "test.txt");
+
+        //28.04
+        /*
+        for(Recordeplayer recordeplayer:recordeplayers){
+            //pathes.add(Paths.get(directory.getPath(),recordeplayer.getName()+".3gpp"));//functiona??
+            pathes.add(FileSystems.getDefault().getPath(directory.getPath(),recordeplayer.getName()+".3gpp"));//functiona??
+            System.out.println("the path is " + FileSystems.getDefault().getPath(directory.getPath(),recordeplayer.getName()+".3gpp"));
+        }
+
+        for(Path s: pathes){
+            try {
+                bytes.add(Files.readAllBytes(s));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        byte[] out = new byte[bytes.get(0).length];
+
+        //
+
+
+        byte bytesum=0;
+        for (int i=0; i<bytes.get(0).length; i++) {
+            for (byte[] b : bytes) {
+                bytesum += b[i];
+                out[i] = (byte) (bytesum >> 1);
+            }
+            bytesum = 0;
+        }
+
+         */
+
+        // from febr
         for (Recordeplayer r : recordeplayers) {
+            System.out.println("status is " + r.getStatus());
             if (r.getStatus() == "stopped recorder") {
                 new Thread(new Runnable() {
                     public void run() {
@@ -199,6 +251,7 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHol
                 }).start();
             }
         }
+
     }
 
     public void addNewTrack(){

@@ -38,7 +38,10 @@ public class Recordeplayer { //на кожен трек свій рекорде�
         {
             if (player == null)
                 player = new MediaPlayer();
-            player.setDataSource(filePath);
+            File directory = new File(Environment.getExternalStorageDirectory()+File.separator+"records1");
+
+            player.setDataSource(directory.getAbsolutePath()+ "/" + filePath + ".3gp");
+            System.out.println("path is " + directory.getAbsolutePath()+ "/" + filePath + ".3gp");
             player.prepare();
             player.start();
             state = "playing";
@@ -95,7 +98,9 @@ public class Recordeplayer { //на кожен трек свій рекорде�
             {
                 recorder.release();
             }
-            recorder = new MediaRecorder();
+            else { //added 28.01.2022
+                recorder = new MediaRecorder();
+            }
             recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
             recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
             recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
@@ -135,7 +140,7 @@ public class Recordeplayer { //на кожен трек свій рекорде�
             //System.out.println("audiofile.getAbsolutePath()"+ audiofile.getAbsolutePath());
 
             //from ExternalStorageTrialApp
-            File folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            /*File folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
             // Storing the data in file with name as geeksData.txt
             try {
@@ -146,6 +151,8 @@ public class Recordeplayer { //на кожен трек свій рекорде�
             catch (Exception e){
                 e.printStackTrace();
             }
+
+             */
 
             //simply
             //File audioDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +

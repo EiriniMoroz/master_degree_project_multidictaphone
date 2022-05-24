@@ -16,7 +16,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.multidictaphone_v10.R;
-import com.example.multidictaphone_v10.adapter.ClickListenerTrack;
+import com.example.multidictaphone_v10.adapter.ClickListenerTrack; //не реагувать на красні імпорти
 import com.example.multidictaphone_v10.adapter.TrackAdapter;
 import com.example.multidictaphone_v10.audioprocessing.Recordeplayer;
 import com.example.multidictaphone_v10.models.Track;

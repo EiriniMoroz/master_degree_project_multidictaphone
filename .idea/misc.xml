@@ -4,11 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/MasterDegree4sem/Diploma/Multidictaphone_v1.0/app/src/main/res/layout/activity_edit_mode.xml" value="0.1953125" />
+        <entry key="..\:/MasterDegree4sem/Diploma/Multidictaphone_v1.0/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/MasterDegree4sem/Diploma/Multidictaphone_v1.0/app/src/main/res/layout/activity_track.xml" value="0.1953125" />
+        <entry key="..\:/MasterDegree4sem/Diploma/Multidictaphone_v1.0/app/src/main/res/layout/category_row_item.xml" value="0.176" />
+        <entry key="..\:/MasterDegree4sem/Diploma/Multidictaphone_v1.0/app/src/main/res/layout/melodyitem.xml" value="0.2" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
